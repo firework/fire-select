@@ -1,0 +1,11 @@
+{
+  "name": "fire-select",
+  "version": "0.0.1",
+  "description": "Fire Select",
+  "author": "Firework - Web Solutions",
+  "license": "MIT",
+  "devDependencies": {
+    "laravel-elixir": "^5.0.0",
+    "laravel-elixir-livereload": "^1.1.4"
+  }
+}
