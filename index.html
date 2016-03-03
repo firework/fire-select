@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fire-select</title>
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          padding: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="fire-select.css">
+</head>
+<body>
+    <!-- fire-select-template -->
+    <template id="fire-select-template">
+        <div
+            class="fire-select-box"
+            :class="{
+                'single': ! multiple,
+                'open': isOpen(),
+            }"
+            @click="! multiple && open()"
+        >
+            <div class="fire-select-wrapper" v-el:wrapper>
+                <div class="fire-selected-list" v-el:list>
+                    <p class="fire-selected-item" v-for="item in selected" @click="multiple && deselect(item)">{{ item.value }} <strong>&times;</strong></p>
+                </div>
+
+                <input
+                    type="text"
+                    class="fire-select-input"
+                    v-model="input"
+                    @keyup.enter="newItem"
+                    @focus="open()"
+                    :style="{
+                        width: getInputWidth()
+                    }"
+                >
+
+                <div class="fire-select-list" v-show="isOpen()">
+                    <p class="fire-select-item" v-if="input">Press enter to add: <strong>{{ input }}</strong></p>
+                    <p class="fire-select-item" v-for="item in tips" @click.stop="select(item)">{{{ item.value | highlight }}}</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <div id="content">
+        <fire-select :items="items"></fire-select>
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <fire-select :items="items" :multiple="true"></fire-select>
+    </div>
+
+    <script src="vue.min.js"></script>
+    <script src="fire-select.js"></script>
+    <script>
+        var data = [];
+        var num = 0;
+        var num = 5;
+        var num = 20;
+
+        for (var i = 0; i < num; i++) {
+            data.push({
+                key: i,
+                value: 'asdsadsadsa' + i,
+                selected: false,
+            });
+        }
+
+        new Vue({
+            el: "#content",
+
+            data: {
+                items: data,
+            },
+
+            events: {
+                fsItemAdded: function(item) {
+                    console.log('fire-select item added:', item);
+                },
+
+                fsItemSelected: function(item) {
+                    console.log('fire-select item selected:', item);
+                },
+
+                fsItemDeselect: function(item) {
+                    console.log('fire-select item deselected:', item);
+                },
+            }
+        });
+    </script>
+    <script src="http://localhost:35729/livereload.js?snipver=1"></script>
+</body>
+</html>
