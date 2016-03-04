@@ -48,15 +48,18 @@ Vue.component('fire-select', {
 
     methods: {
         open: function() {
-            this.opened = true;
+            if (this.multiple || this.selected.length == 0) {
+                this.opened = true;
+            }
         },
 
         isOpen: function() {
-            console.log(this.opened);
             return this.opened;
         },
 
         newItem: function() {
+            if (! this.multiple && this.selected.length >= 1) return;
+
             var text = this.input.trim();
 
             if (! text) return;

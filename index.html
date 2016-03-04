@@ -19,16 +19,15 @@
     <!-- fire-select-template -->
     <template id="fire-select-template">
         <div
-            class="fire-select-box"
+            class="fire-select-box open"
             :class="{
                 'single': ! multiple,
-                'open': isOpen(),
             }"
             @click="! multiple && open()"
         >
             <div class="fire-select-wrapper" v-el:wrapper>
                 <div class="fire-selected-list" v-el:list>
-                    <p class="fire-selected-item" v-for="item in selected" @click="multiple && deselect(item)">{{ item.value }} <strong>&times;</strong></p>
+                    <p class="fire-selected-item" v-for="item in selected" @click="deselect(item)">{{ item.value }} <strong>&times;</strong></p>
                 </div>
 
                 <input
