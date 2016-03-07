@@ -2,15 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300,400italic,700italic' rel='stylesheet' type='text/css'>
     <title>Fire-select</title>
     <style>
-        * {
-          margin: 0;
-          padding: 0;
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #666;
         }
 
-        body {
-          padding: 20px;
+        .title {
+            text-align: center;
+            font-size: 42px;
+            font-style: italic;
+        }
+
+        .fire {
+            color: #ff3200;
+        }
+
+        .fire span {
+            font-style: normal;
+        }
+
+        #content {
+            width: 400px;
+            margin: 50px auto;
         }
     </style>
     <link rel="stylesheet" href="fire-select.css">
@@ -19,39 +35,69 @@
     <!-- fire-select-template -->
     <template id="fire-select-template">
         <div
-            class="fire-select-box open"
+            class="fire-select-box"
             :class="{
-                'single': ! multiple,
+                'multiple': multiple,
             }"
-            @click="! multiple && open()"
+            @click="open()"
         >
-            <div class="fire-select-wrapper" v-el:wrapper>
-                <div class="fire-selected-list" v-el:list>
-                    <p class="fire-selected-item" v-for="item in selected" @click="deselect(item)">{{ item.value }} <strong>&times;</strong></p>
-                </div>
+            <ul class="fire-selected-list">
+                <li class="fire-selected-item empty" v-show="selected.length == 0">{{ emptyMessage }}</li>
+                <li class="fire-selected-item"
+                    :class="{
+                        'animated': animation
+                    }"
+                    :transition="animation ? 'bounce' : ''"
+                    v-for="item in selected"
+                    @click.stop="multiple ? deselect(item) : open()"
+                >
+                    {{ item.value }} <b @click.stop="deselect(item)">&times;</b>
+                </li>
+            </ul>
 
-                <input
-                    type="text"
-                    class="fire-select-input"
-                    v-model="input"
-                    @keyup.enter="newItem"
-                    @focus="open()"
-                    :style="{
-                        width: getInputWidth()
+            <ul class="fire-select-list" v-show="isOpen" transition="bounce">
+                <li class="fire-select-item-input">
+                    <input
+                        type="text"
+                        class="fire-select-input"
+                        :placeholder="placeholder"
+                        v-model="input"
+                        v-el:input
+                        @keyup.enter="index === null ? newItem() : select(index)"
+                        @keyup.up="up()"
+                        @keyup.down="down()"
+                        @blur="close() | debounce 100"
+                    >
+                </li>
+
+                <li class="fire-select-item" v-if="input" @click="newItem()">
+                    {{ index === null ? 'Press enter' : 'Click here' }} to add: <b>{{ input }}</b>
+                </li>
+
+                <li
+                    class="fire-select-item"
+                    v-for="item in tips"
+                    @click.stop="select(item)"
+                    :class="{
+                        'hover': $index == index,
                     }"
                 >
+                    {{{ item.value | highlight }}}
+                </li>
+            </ul>
 
-                <div class="fire-select-list" v-show="isOpen()">
-                    <p class="fire-select-item" v-if="input">Press enter to add: <strong>{{ input }}</strong></p>
-                    <p class="fire-select-item" v-for="item in tips" @click.stop="select(item)">{{{ item.value | highlight }}}</p>
-                </div>
-            </div>
+            <select :name="name" :id="id" multiple style="display: none;">
+                <option :value="item.key" selected v-for="item in selected">{{ item.value }}</option>
+            </select>
         </div>
     </template>
 
+    <h1 class="title"><span class="fire"><span>🔥</span>Fire</span>select</h1>
+
     <div id="content">
-        <fire-select :items="items"></fire-select>
-        <br><br><br><br><br><br><br><br><br><br><br>
+        <h3>Single</h3>
+        <fire-select></fire-select>
+        <h3>Multiple</h3>
         <fire-select :items="items" :multiple="true"></fire-select>
     </div>
 
@@ -59,19 +105,20 @@
     <script src="fire-select.js"></script>
     <script>
         var data = [];
-        var num = 0;
-        var num = 5;
-        var num = 20;
+        var num = 4;
 
         for (var i = 0; i < num; i++) {
             data.push({
                 key: i,
-                value: 'asdsadsadsa' + i,
-                selected: false,
+                value: 'item-' + i,
+                selected: i%2 == 0,
+                // selected: false,
             });
         }
 
-        new Vue({
+        // data = ['pera', 'uva', 'maça', 'salada mista'];
+
+        var vm = new Vue({
             el: "#content",
 
             data: {

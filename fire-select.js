@@ -1,40 +1,82 @@
 Vue.component('fire-select', {
     template: '#fire-select-template',
 
-    props: ['items', 'multiple'],
+    props: {
+        items: {
+            type: Array,
+            default: [],
+        },
+
+        multiple: {
+            type: Boolean,
+            default: false
+        },
+
+        name: {
+            type: String,
+            default: 'fire-select[]'
+        },
+
+        id: {
+            type: String,
+            default: 'fire-select'
+        },
+
+        placeholder: {
+            type: String,
+            default: 'Type anything to search'
+        },
+
+        emptyMessage: {
+            type: String
+        },
+
+        animation: {
+            type: Boolean,
+            default: true
+        }
+    },
 
     data: function() {
         return {
+            items_: [],
             input: '',
-            active: null,
-            listWidth: 0,
-            wrapperWidth: 0,
-            opened: false,
+            index: null,
+            isOpen: false,
+            isPopulating: false,
+            skipClose: false,
         }
+    },
+
+    transitions: {
+        'bounce': {
+            enterClass: 'fs-bounceIn',
+            leaveClass: 'fs-hidden'
+        },
     },
 
     computed: {
         tips: function() {
-            return this.items.filter(function(item) { return item.tip == true && item.selected == false; });
+            return this.items_.filter(function(item) { return item.tip == true && item.selected == false; });
         },
 
         selected: function() {
-            return this.items.filter(function(item) { return item.selected == true; });
+            return this.items_.filter(function(item) { return item.selected == true; });
         },
     },
 
     watch: {
         'input': function (val) {
-            this.items.forEach(function(item) {
-                item.tip = val.length > 0 && item.value.indexOf(val) != -1;
+            this.index = null;
+
+            this.items_.forEach(function(item) {
+                item.tip = val.length ? item.value.indexOf(val) != -1 : true;
             });
         },
 
         'items': {
             handler: function() {
-                Vue.nextTick(function () {
-                    this.listWidth = this.$els.list.offsetWidth;
-                }.bind(this));
+                this.populate();
             },
             deep: true
         }
@@ -42,87 +84,123 @@ Vue.component('fire-select', {
 
     filters: {
         highlight: function(value) {
-            return value.replace(new RegExp('('+this.input+')', 'g'), '<strong>$1</strong>');
+            return this.input.length
+                ? value.replace(new RegExp('('+this.input+')', 'g'), '<b>$1</b>')
+                : value;
         }
     },
 
     methods: {
-        open: function() {
-            if (this.multiple || this.selected.length == 0) {
-                this.opened = true;
+        populate: function() {
+            this.index = null;
+            this.isPopulating = true;
+
+            this.items.forEach(function(item, index) {
+                if (typeof item == 'string') {
+                    this.addItem(index, item, false, true);
+                } else {
+                    this.addItem(item.key, item.value, item.selected, true);
+                }
+            }.bind(this));
+
+            this.isPopulating = false;
+        },
+
+        addItem: function(key, value, selected, tip) {
+            var item = {
+                key: key,
+                value: value,
+                selected: false,
+                tip: !! tip,
+            };
+
+            if (this.items_.filter(function(item_) {
+                return item_.key == key && item_.value == value;
+            }).length == 0) {
+                this.items_.$set(this.items_.length, item);
+                if (! this.isPopulating) this.$dispatch('fsItemAdded', Vue.util.extend({}, item));
+                if (!! selected) this.select(item);
             }
         },
 
-        isOpen: function() {
-            return this.opened;
-        },
-
         newItem: function() {
-            if (! this.multiple && this.selected.length >= 1) return;
-
             var text = this.input.trim();
 
             if (! text) return;
 
-            this.addItem(text, text, true, false, true)
+            this.singleDeselect();
+            this.addItem(text, text, true, true, true);
             this.input = '';
         },
 
-        addItem: function(key, value, selected, tip, dispatch) {
-            // if (! this.multiple && this.selected.length > 0) return;
-
-            var item = {
-                key: key,
-                value: value,
-                selected: !! selected,
-                tip: !! tip,
+        select: function(item) {
+            // get a item by this.index
+            if (typeof item != 'object') {
+                item = this.tips[this.index];
+                this.index = null;
             };
 
-            if (this.items.filter(function(item) {
-                return item.key == key && item.value == value;
-            }).length == 0) {
-                this.items.push(item);
+            this.singleDeselect();
 
-                if (dispatch) {
-                    this.$dispatch('fsItemAdded', item);
-                    this.$dispatch('fsItemSelected', item);
-                }
-            }
-        },
-
-        select: function(item) {
             item.selected = true;
-            this.opened = false;
-            this.$dispatch('fsItemSelected', item);
+            if (! this.isPopulating) this.$dispatch('fsItemSelected', Vue.util.extend({}, item));
+
+            if (this.multiple) {
+                this.skipClose = true;
+                if (this.isOpen) this.$els.input.focus();
+            } else {
+                if (this.isOpen) this.close();
+            }
         },
 
         deselect: function(item) {
             item.selected = false;
-            this.$dispatch('fsItemDeselect', item);
+            if (! this.isPopulating) this.$dispatch('fsItemDeselect', Vue.util.extend({}, item));
         },
 
-        getInputWidth: function() {
-            var width = this.wrapperWidth - this.listWidth - 1;
+        singleDeselect: function() {
+            if (! this.multiple && this.selected.length) this.deselect(this.selected[0]);
+        },
 
-            return width > 300 ? width + 'px' : '100%';
-        }
+        up: function() {
+            if (this.index !== null && this.index > 0) {
+                this.index--;
+            } else {
+                this.index = this.tips.length - 1;
+            }
+        },
+
+        down: function() {
+            if (this.index !== null && this.index < (this.tips.length - 1)) {
+                this.index++;
+            } else {
+                this.index = 0;
+            }
+        },
+
+        open: function() {
+            this.isOpen = true;
+
+            this.$nextTick(function () {
+                this.$els.input.focus();
+            }.bind(this));
+        },
+
+        close: function() {
+            if (this.skipClose === true) {
+                this.skipClose = false;
+                return;
+            }
+
+            this.isOpen = false;
+        },
     },
 
     created: function() {
-        var items = this.items;
+        // set default value to emptyMessage
+        this.emptyMessage = this.emptyMessage || (this.multiple ? 'Select some items' : 'Select an item');
 
-        this.items = [];
-
-        items.forEach(function(item, index) {
-            if (typeof item == 'string') {
-                this.addItem(index, item, false, ! this.multiple);
-            } else {
-                this.addItem(item.key, item.value, item.selected, ! this.multiple)
-            }
-        }.bind(this));
-
-        Vue.nextTick(function () {
-            this.wrapperWidth = this.$els.wrapper.clientWidth;
-        }.bind(this));
+        // populate the items_
+        this.populate();
     }
 });

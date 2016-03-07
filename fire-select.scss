@@ -1,70 +1,88 @@
-// fire select
+// ====================================================
+// 🔥Fireselect
+// ====================================================
+
 .fire-select-box {
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 3px;
     position: relative;
-    padding: 5px 5px 0 5px;
     box-sizing: border-box;
+    margin-bottom: 20px;
 
     &:before,
     &:after {
         content: " ";
         display: table;
     }
+
     &:after {
         clear: both;
     }
 
-    &.single {
-        .fire-selected-list {
-            width: 100%;
-        }
+    &.multiple {
+        .fire-selected-item:not(.empty) {
+            display: inline-block;
+            font-size: 14px;
+            padding: 2px 5px;
+            margin: 3px 0 3px 3px;
+            border: 1px solid #ccc;
 
-        .fire-selected-item {
-            width: 100%;
-            box-sizing: border-box;
-        }
+            &::after {
+                display: none;
+            }
 
-        .fire-select-input {
-            display: none;
-        }
-
-        &.open {
-            .fire-select-input {
-                display: block;
+            & > b {
+                float: none;
+                margin: 0;
             }
         }
     }
 }
 
-.fire-select-input {
-    border: none;
-    font-size: 14px;
-    line-height: 14px;
-    padding: 3px 0;
-    outline: none;
-    color: #333;
-    margin-bottom: 5px;
-    float: left;
+.fire-select-list,
+.fire-selected-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 .fire-selected-list {
+    width: 100%;
     float: left;
+    cursor: pointer;
 }
 
 .fire-selected-item {
+    box-sizing: border-box;
     border-radius: 3px;
-    padding: 3px 6px;
-    border: 1px solid #ccc;
+    padding: 5px 10px;
     color: #333;
     background-image: linear-gradient(#fff, #ddd);
-    display: inline-block;
-    cursor: pointer;
+    display: block;
     user-select: none;
-    font-size: 14px;
-    line-height: 14px;
-    margin: 0 5px 5px 0;
+    font-size: 16px;
+    line-height: 1em;
+    position: relative;
+
+    &::after {
+        content: '';
+        display: block;
+    	width: 0;
+    	height: 0;
+    	border-left: 4px solid transparent;
+    	border-right: 4px solid transparent;
+    	border-top: 4px solid #333;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        margin-top: -2px;
+    }
+
+    & > b {
+        float: right;
+        margin-right: 20px;
+    }
 }
 
 .fire-select-list {
@@ -86,13 +104,76 @@
     color: #333;
     cursor: pointer;
     user-select: none;
-    font-size: 16px;
+    font-size: 14px;
+    border-top: 1px solid #eee;
 
-    & + & {
-        border-top: 1px solid #eee;
-    }
-
-    &:hover {
+    &:hover,
+    &.hover {
         background: #eee;
     }
+}
+
+.fire-select-item-input {
+    padding: 10px;
+}
+
+.fire-select-input {
+    border: none;
+    font-size: 14px;
+    line-height: 1em;
+    outline: none;
+    color: #333;
+    width: 100%;
+}
+
+.fs-hidden {
+    display: none !important;
+}
+
+// ====================================================
+// Animate.css - bounceIn
+// ====================================================
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@keyframes bounceIn {
+    from, 20%, 40%, 60%, 80%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    }
+
+    0% {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+
+    20% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+
+    40% {
+        transform: scale3d(.9, .9, .9);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+
+    80% {
+    transform: scale3d(.97, .97, .97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+.fs-bounceIn {
+  animation-name: bounceIn;
 }
