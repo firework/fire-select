@@ -1,4 +1,4 @@
-# **<font color="#ff3200">🔥</font>*<font color="#ff3200">Fire</font><font color="#666">select</font>***
+# 🔥_Fireselect_
 
 ## Events
 [Vue.js - Dispatch](http://vuejs.org/api/#vm-dispatch)
