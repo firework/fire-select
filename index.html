@@ -64,8 +64,8 @@
                         v-model="input"
                         v-el:input
                         @keyup.enter="index === null ? newItem() : select(index)"
-                        @keyup.up="up()"
-                        @keyup.down="down()"
+                        @keydown.up.prevent="up()"
+                        @keydown.down.prevent="down()"
                         @blur="close() | debounce 100"
                     >
                 </li>
@@ -96,7 +96,7 @@
 
     <div id="content">
         <h3>Single</h3>
-        <fire-select></fire-select>
+        <fire-select :items="items"></fire-select>
         <h3>Multiple</h3>
         <fire-select :items="items" :multiple="true"></fire-select>
     </div>
