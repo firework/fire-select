@@ -64,6 +64,7 @@
                         v-model="input"
                         v-el:input
                         @keyup.enter="index === null ? newItem() : select(index)"
+                        @keydown.esc="close()"
                         @keydown.up.prevent="up()"
                         @keydown.down.prevent="down()"
                         @blur="close() | debounce 100"
