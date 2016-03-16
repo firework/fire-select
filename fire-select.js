@@ -33,7 +33,10 @@ Vue.component('fire-select', {
         },
 
         placeholder: {
-            type: String
+            type: String,
+            default: function () {
+                return this.multiple ? 'Select some items' : 'Select an item';
+            }
         },
 
         animation: {
@@ -204,9 +207,6 @@ Vue.component('fire-select', {
     },
 
     created: function() {
-        // set default value to placeholder
-        this.placeholder = this.placeholder || (this.multiple ? 'Select some items' : 'Select an item');
-
         // populate the items_
         this.populate();
     }
