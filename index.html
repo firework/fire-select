@@ -42,7 +42,7 @@
             @click="open()"
         >
             <ul class="fire-selected-list">
-                <li class="fire-selected-item empty" v-show="selected.length == 0">{{ emptyMessage }}</li>
+                <li class="fire-selected-item empty" v-show="selected.length == 0">{{ placeholder }}</li>
                 <li class="fire-selected-item"
                     :class="{
                         'animated': animation
@@ -60,7 +60,7 @@
                     <input
                         type="text"
                         class="fire-select-input"
-                        :placeholder="placeholder"
+                        :placeholder="helperMessage"
                         v-model="input"
                         v-el:input
                         @keyup.enter="index === null ? newItem() : select(index)"
