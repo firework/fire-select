@@ -85,6 +85,10 @@
                 >
                     {{{ item.value | highlight }}}
                 </li>
+
+                <li class="fire-select-item"
+                    v-if="tips.length == 0"
+                >No results found "{{ input }}"</li>
             </ul>
 
             <select :name="name" :id="id" multiple style="display: none;">
