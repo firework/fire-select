@@ -153,7 +153,11 @@ Vue.component('fire-select', {
             this.singleDeselect();
 
             item.selected = true;
-            if (! this.isPopulating) this.$dispatch('fsItemSelected', Vue.util.extend({}, item));
+            if (! this.isPopulating) {
+                setTimeout(function() {
+                    this.$dispatch('fsItemSelected', Vue.util.extend({}, item));
+                }.bind(this), 400);
+            }
 
             if (this.multiple) {
                 this.skipClose = true;
