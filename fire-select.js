@@ -22,12 +22,12 @@ Vue.component('fire-select', {
             default: 'fire-select'
         },
 
-        placeholder: {
+        helperMessage: {
             type: String,
             default: 'Type anything to search'
         },
 
-        emptyMessage: {
+        placeholder: {
             type: String
         },
 
@@ -197,8 +197,8 @@ Vue.component('fire-select', {
     },
 
     created: function() {
-        // set default value to emptyMessage
-        this.emptyMessage = this.emptyMessage || (this.multiple ? 'Select some items' : 'Select an item');
+        // set default value to placeholder
+        this.placeholder = this.placeholder || (this.multiple ? 'Select some items' : 'Select an item');
 
         // populate the items_
         this.populate();
