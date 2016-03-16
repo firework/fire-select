@@ -71,7 +71,7 @@
                     >
                 </li>
 
-                <li class="fire-select-item" v-if="input" @click="newItem()">
+                <li class="fire-select-item" v-if="input, create" @click="newItem()">
                     {{ index === null ? 'Press enter' : 'Click here' }} to add: <b>{{ input }}</b>
                 </li>
 

@@ -12,6 +12,11 @@ Vue.component('fire-select', {
             default: false
         },
 
+        create: {
+            type: Boolean,
+            default: false
+        },
+
         name: {
             type: String,
             default: 'fire-select[]'
@@ -124,6 +129,8 @@ Vue.component('fire-select', {
         },
 
         newItem: function() {
+            if (! this.create) return;
+
             var text = this.input.trim();
 
             if (! text) return;
