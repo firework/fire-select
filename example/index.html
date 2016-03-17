@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🔥 Fireselect</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../dist/fire-select.css">
+</head>
+<body>
+    <!-- fire-select-template -->
+    <template id="fire-select-template">
+        <div
+            class="fire-select-box"
+            :class="{
+                'multiple': multiple,
+            }"
+            @click="open()"
+        >
+            <ul class="fire-selected-list">
+                <li class="fire-selected-item empty" v-show="selected.length == 0">{{ placeholder }}</li>
+                <li class="fire-selected-item"
+                    :class="{
+                        'animated': animation
+                    }"
+                    :transition="animation ? 'bounce' : ''"
+                    v-for="option in selected"
+                    @click.stop="multiple ? deselect(option) : open()"
+                >
+                    {{ option.label }} <b @click.stop="deselect(option)">&times;</b>
+                </li>
+            </ul>
+
+            <ul class="fire-select-list" v-show="isOpen" transition="bounce">
+                <li class="fire-select-item-input">
+                    <input
+                        type="text"
+                        class="fire-select-input"
+                        :placeholder="helperMessage"
+                        v-model="input"
+                        v-el:input
+                        @keyup.enter="index === null || index == -1 ? newOption() : select(index)"
+                        @keydown.esc="close()"
+                        @keydown.up.prevent="up()"
+                        @keydown.down.prevent="down()"
+                        @blur="close() | debounce 100"
+                    >
+                </li>
+
+                <li class="fire-select-item"
+                    v-if="input && create"
+                    @click="newOption()"
+                    :class="{
+                        'hover': index == -1,
+                    }"
+                >
+                    Press enter to add: <b>{{ input }}</b>
+                </li>
+
+                <li class="fire-select-item" v-if="tips.length == 0">
+                    No results found for: <b>{{ input }}</b>
+                </li>
+
+                <li
+                    class="fire-select-item"
+                    v-for="option in tips"
+                    @click.stop="select(option)"
+                    @mouseover="index = null"
+                    :class="{
+                        'hover': $index == index,
+                    }"
+                >
+                    {{{ option.label | highlight }}}
+                </li>
+            </ul>
+
+            <select :name="name" :id="id" multiple style="display: none;">
+                <option :value="option.value" selected v-for="option in selected">{{ option.label }}</option>
+            </select>
+        </div>
+    </template>
+
+    <h1 class="title"><span class="fire"><span>🔥</span>Fire</span>select</h1>
+
+    <div id="content">
+        <h3>Fireselect</h3>
+        <fire-select
+            :options="options == 'object' ? languagesObj : languages"
+            :multiple="multiple"
+            :create="create"
+            :animation="animation"
+            :helper-message="helperMessage"
+            :placeholder="placeholder"
+        ></fire-select>
+
+        <hr>
+
+        <div id="props">
+            <h3>Props</h3>
+
+            <div class="radio">
+                <label for="object">
+                    <input type="radio" name="options" id="object" value="object" class="options" v-model="options">
+                    Object
+                    <pre>{{ languagesObj | json }}</pre>
+                </label>
+
+                <label for="string">
+                    <input type="radio" name="options" id="string" value="string" class="options" v-model="options">
+                    String
+                    <pre>{{ languages | json }}</pre>
+                </label>
+            </div>
+
+            <label>
+                <input type="checkbox" v-model="multiple">
+                Multiple
+            </label>
+
+            <label>
+                <input type="checkbox" v-model="create">
+                Create
+            </label>
+
+            <label>
+                <input type="checkbox" v-model="animation">
+                Animation
+            </label>
+
+            <label>
+                Helper Message
+                <input type="text" v-model="helperMessage">
+            </label>
+
+            <label>
+                Placeholder
+                <input type="text" v-model="placeholder">
+            </label>
+        </div>
+    </div>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.17/vue.min.js"></script>
+    <script src="../dist/fire-select.js"></script>
+    <script src="script.js"></script>
+
+    <!-- livereload -->
+    <script src="http://localhost:35729/livereload.js?snipver=1"></script>
+</body>
+</html>

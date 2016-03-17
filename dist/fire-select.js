@@ -2,7 +2,7 @@ Vue.component('fire-select', {
     template: '#fire-select-template',
 
     props: {
-        items: {
+        options: {
             type: Array,
             default: [],
         },
@@ -14,7 +14,7 @@ Vue.component('fire-select', {
 
         create: {
             type: Boolean,
-            default: false
+            default: true
         },
 
         name: {
@@ -47,7 +47,7 @@ Vue.component('fire-select', {
 
     data: function() {
         return {
-            items_: [],
+            options_: [],
             input: '',
             index: null,
             isOpen: false,
@@ -65,11 +65,11 @@ Vue.component('fire-select', {
 
     computed: {
         tips: function() {
-            return this.items_.filter(function(item) { return item.tip == true && item.selected == false; });
+            return this.options_.filter(function(option) { return option.tip == true && option.selected == false; });
         },
 
         selected: function() {
-            return this.items_.filter(function(item) { return item.selected == true; });
+            return this.options_.filter(function(option) { return option.selected == true; });
         },
     },
 
@@ -77,12 +77,15 @@ Vue.component('fire-select', {
         'input': function (val) {
             this.index = null;
 
-            this.items_.forEach(function(item) {
-                item.tip = val.length ? item.value.indexOf(val) != -1 : true;
+            this.options_.forEach(function(option) {
+                var label = option.label.toLowerCase(),
+                    value = val.toLowerCase();
+
+                option.tip = val.length ? label.indexOf(value) != -1 : true;
             });
         },
 
-        'items': {
+        'options': {
             handler: function() {
                 this.populate();
             },
@@ -100,38 +103,39 @@ Vue.component('fire-select', {
 
     methods: {
         populate: function() {
+            this.options_ = [];
             this.index = null;
             this.isPopulating = true;
 
-            this.items.forEach(function(item, index) {
-                if (typeof item == 'string') {
-                    this.addItem(index, item, false, true);
+            this.options.forEach(function(option, index) {
+                if (typeof option == 'string') {
+                    this.addOption(index, option, false, true);
                 } else {
-                    this.addItem(item.key, item.value, item.selected, true);
+                    this.addOption(option.value, option.label, option.selected, true);
                 }
             }.bind(this));
 
             this.isPopulating = false;
         },
 
-        addItem: function(key, value, selected, tip) {
-            var item = {
-                key: key,
+        addOption: function(value, label, selected, tip) {
+            var option = {
                 value: value,
+                label: label,
                 selected: false,
                 tip: !! tip,
             };
 
-            if (this.items_.filter(function(item_) {
-                return item_.key == key && item_.value == value;
+            if (this.options_.filter(function(item_) {
+                return item_.value == value && item_.label == label;
             }).length == 0) {
-                this.items_.$set(this.items_.length, item);
-                if (! this.isPopulating) this.$dispatch('fsItemAdded', Vue.util.extend({}, item));
-                if (!! selected) this.select(item);
+                this.options_.$set(this.options_.length, option);
+                if (! this.isPopulating) this.$dispatch('fsOptionAdded', Vue.util.extend({}, option));
+                if (!! selected) this.select(option);
             }
         },
 
-        newItem: function() {
+        newOption: function() {
             if (! this.create) return;
 
             var text = this.input.trim();
@@ -139,21 +143,21 @@ Vue.component('fire-select', {
             if (! text) return;
 
             this.singleDeselect();
-            this.addItem(text, text, true, true, true);
+            this.addOption(text, text, true, true, true);
             this.input = '';
         },
 
-        select: function(item) {
-            // get a item by this.index
-            if (typeof item != 'object') {
-                item = this.tips[this.index];
+        select: function(option) {
+            // get a option by this.index
+            if (typeof option != 'object') {
+                option = this.tips[this.index];
                 this.index = null;
             };
 
             this.singleDeselect();
 
-            item.selected = true;
-            if (! this.isPopulating) this.$dispatch('fsItemSelected', Vue.util.extend({}, item));
+            option.selected = true;
+            if (! this.isPopulating) this.$dispatch('fsOptionSelected', Vue.util.extend({}, option));
 
             if (this.multiple) {
                 this.skipClose = true;
@@ -163,17 +167,18 @@ Vue.component('fire-select', {
             }
         },
 
-        deselect: function(item) {
-            item.selected = false;
-            if (! this.isPopulating) this.$dispatch('fsItemDeselect', Vue.util.extend({}, item));
+        deselect: function(option) {
+            option.selected = false;
+            if (! this.isPopulating) this.$dispatch('fsOptionDeselect', Vue.util.extend({}, option));
         },
 
         singleDeselect: function() {
             if (! this.multiple && this.selected.length) this.deselect(this.selected[0]);
+            this.input = '';
         },
 
         up: function() {
-            if (this.index !== null && this.index > 0) {
+            if (this.index !== null && this.index > -1) {
                 this.index--;
             } else {
                 this.index = this.tips.length - 1;
@@ -184,7 +189,7 @@ Vue.component('fire-select', {
             if (this.index !== null && this.index < (this.tips.length - 1)) {
                 this.index++;
             } else {
-                this.index = 0;
+                this.index = this.input ? -1 : 0;
             }
         },
 
@@ -207,7 +212,6 @@ Vue.component('fire-select', {
     },
 
     created: function() {
-        // populate the items_
         this.populate();
     }
 });

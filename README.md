@@ -1,5 +1,7 @@
 # 🔥_Fireselect_
-Vue component that transforms overwhelming <select> boxes into something fancy, simple and user-friendly.  
+
+Vue component that transforms overwhelming `select` boxes into something fancy, simple and user-friendly.
+
 It is similar to Selectize, Chosen, Select2, etc. However it was built using Vue.js only ;)
 
 ## Options
@@ -9,7 +11,7 @@ It is similar to Selectize, Chosen, Select2, etc. However it was built using Vue
     An array of the initial available options.  
 
 - **multiple** | *Boolean* | false  
-    Equivalent to the <select multiple> attribute.  
+    Equivalent to the `select multiple` attribute.  
 
 - **create** | *Boolean* | false  
     Allows the creation of new items that aren't in the list of options.    
@@ -33,23 +35,22 @@ It is similar to Selectize, Chosen, Select2, etc. However it was built using Vue
 ## Events
 [Vue.js - Dispatch](http://vuejs.org/api/#vm-dispatch)
 
-- **fsItemAdded**
+- **fsOptionAdded**
 When a new item is added.
 
-- **fsItemSelected**
+- **fsOptionSelected**
 When a item is selected.
 
-- **fsItemDeselect**
+- **fsOptionDeselect**
 When a item is deselected.
 
 ```js
-export default {
+new Vue({
+  ...
   events: {
-        fsItemAdded: function(item) {
-            // do something
-        },
-        ...
+    fsOptionAdded: function(option) {
+      // do something
     }
+  }
 }
 ```
-
