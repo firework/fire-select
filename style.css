@@ -1,0 +1,85 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #666;
+}
+
+.title {
+    text-align: center;
+    font-size: 42px;
+    font-style: italic;
+}
+
+.fire {
+    color: #ff3200;
+}
+
+.fire span {
+    font-style: normal;
+}
+
+#content {
+    width: 400px;
+    margin: 50px auto;
+}
+
+hr {
+    margin: 0;
+    padding: 0;
+    height: 1px;
+    background: #ccc;
+    border: none;
+}
+
+#props label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+    box-sizing: border-box;
+    line-height: 1em;
+    position: relative;
+}
+
+#props label:hover pre {
+    display: block;
+}
+
+#props label pre {
+    border: 1px solid #ccc;
+    background: #eee;
+    padding: 10px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    z-index: 1;
+    border-radius: 5px;
+    font-size: 11px;
+    line-height: 1.5em;
+}
+
+#props input {
+    margin: 0;
+    padding: 0;
+}
+
+#props input[type=text] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    line-height: 1em;
+    outline: none;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+.radio {
+    display: flex;
+    flex-flow: row;
+}
+
+.radio label {
+    width: 50%;
+}
