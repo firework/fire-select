@@ -7,7 +7,7 @@ It is similar to Selectize, Chosen, Select2, etc. However it was built using Vue
 ## Options
 *name* | *type* | *default*  
 
-- **items** | *Array* | []  
+- **options** | *Array* | []  
     An array of the initial available options.  
 
 - **multiple** | *Boolean* | false  
@@ -31,6 +31,34 @@ It is similar to Selectize, Chosen, Select2, etc. However it was built using Vue
 - **id** | *String* | fire-select  
     Id attribute of input
 
+## Usage
+```html
+<!-- Import -->
+<link rel="stylesheet" href="../src/fire-select.css">
+..
+<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.min.js"></script>
+<script src="../src/fire-select.js"></script>
+
+<!-- Import fire-select template ../src/fireselect.html -->
+<template id="fire-select-template">
+....
+</template>
+
+<!-- Use fire-select componenet -->
+<fire-select :options="options"></fire-select>
+
+```
+
+### Options
+```javascript
+var obj = [
+    {value: 'html', label: 'HyperText Markup Language', selected: true},
+    {value: 'css', label: 'Cascading Style Sheets'},
+    {value: 'js', label: 'Javascript'},
+];
+
+var arr = ['HyperText Markup Language', 'Cascading Style Sheets', 'Javascript'];
+```
 
 ## Events
 [Vue.js - Dispatch](http://vuejs.org/api/#vm-dispatch)
