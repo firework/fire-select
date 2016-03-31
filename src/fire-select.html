@@ -46,7 +46,7 @@
                 Press enter to add: <b>{{ input }}</b>
             </li>
 
-            <li class="fire-select-item" v-if="tips.length == 0">
+            <li class="fire-select-item" v-if="tips.length == 0 && ! create">
                 No results found for: <b>{{ input }}</b>
             </li>
 
