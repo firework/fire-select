@@ -63,7 +63,7 @@ Vue.component('fire-select', {
             isOpen: false,
             isPopulating: false,
             skipClose: false,
-        }
+        };
     },
 
     transitions: {
@@ -75,11 +75,11 @@ Vue.component('fire-select', {
 
     computed: {
         tips: function() {
-            return this.options_.filter(function(option) { return option.tip == true && option.selected == false; });
+            return this.options_.filter(function(option) { return option.tip === true && option.selected === false; });
         },
 
         selected: function() {
-            return this.options_.filter(function(option) { return option.selected == true; });
+            return this.options_.filter(function(option) { return option.selected === true; });
         },
     },
 
@@ -105,8 +105,8 @@ Vue.component('fire-select', {
 
     filters: {
         highlight: function(value) {
-            return this.input.length
-                ? value.replace(new RegExp('('+this.input+')', 'g'), '<b>$1</b>')
+            return this.input.length ?
+                value.replace(new RegExp('('+this.input+')', 'g'), '<b>$1</b>')
                 : value;
         }
     },
@@ -138,7 +138,7 @@ Vue.component('fire-select', {
 
             if (this.options_.filter(function(item_) {
                 return item_.value == value && item_.label == label;
-            }).length == 0) {
+            }).length === 0) {
                 this.options_.$set(this.options_.length, option);
                 if (! this.isPopulating) this.$dispatch('fsOptionAdded', Vue.util.extend({}, option));
                 if (!! selected) this.select(option);
@@ -162,7 +162,7 @@ Vue.component('fire-select', {
             if (typeof option != 'object') {
                 option = this.tips[this.index];
                 this.index = null;
-            };
+            }
 
             this.singleDeselect();
 
