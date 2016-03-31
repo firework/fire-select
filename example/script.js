@@ -20,6 +20,8 @@ var vm = new Vue({
         animation: true,
         helperMessage: 'Type anything to search',
         placeholder: 'Select an item',
+        pressEnterLabel: 'Press enter to add:',
+        noResultsLabel: 'No results found for:',
     },
 
     events: {

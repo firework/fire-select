@@ -54,11 +54,11 @@
                         'hover': index == -1,
                     }"
                 >
-                    Press enter to add: <b>{{ input }}</b>
+                    {{ pressEnterLabel }} <b>{{ input }}</b>
                 </li>
 
                 <li class="fire-select-item" v-if="tips.length == 0 && ! create">
-                    No results found for: <b>{{ input }}</b>
+                    {{ noResultsLabel }} <b>{{ input }}</b>
                 </li>
 
                 <li
@@ -92,6 +92,8 @@
             :animation="animation"
             :helper-message="helperMessage"
             :placeholder="placeholder"
+            :press-enter-label="pressEnterLabel"
+            :no-results-label="noResultsLabel"
         ></fire-select>
 
         <hr>
@@ -136,6 +138,16 @@
             <label>
                 Placeholder
                 <input type="text" v-model="placeholder">
+            </label>
+
+            <label>
+                Press Enter Label
+                <input type="text" v-model="pressEnterLabel">
+            </label>
+
+            <label>
+                No Results Label
+                <input type="text" v-model="noResultsLabel">
             </label>
         </div>
     </div>

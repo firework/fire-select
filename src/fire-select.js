@@ -39,6 +39,16 @@ Vue.component('fire-select', {
             }
         },
 
+        pressEnterLabel: {
+            type: String,
+            default: 'Press enter to add:'
+        },
+
+        noResultsLabel: {
+            type: String,
+            default: 'No results found for:'
+        },
+
         animation: {
             type: Boolean,
             default: true
