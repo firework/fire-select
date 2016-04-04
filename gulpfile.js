@@ -5,7 +5,8 @@ elixir.config.sourcemaps = false;
 
 elixir(function(mix) {
     mix
-        .sass('./src/fire-select.scss', './src/fire-select.css')
+        .sass('./src/fire-select.scss', './example/fire-select.css')
+        .browserify('./src/fire-select.js', './example/fire-select.js')
 
         .livereload([
             './src/fire-select.css',

@@ -1,5 +1,5 @@
 Vue.component('fire-select', {
-    template: '#fire-select-template',
+    template: require('./fire-select.html'),
 
     props: {
         options: {
