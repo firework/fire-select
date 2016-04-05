@@ -39,9 +39,9 @@ Vue.component('fire-select', {
             }
         },
 
-        pressEnterLabel: {
+        addLabel: {
             type: String,
-            default: 'Press enter to add:'
+            default: 'Add:'
         },
 
         noResultsLabel: {
@@ -100,7 +100,15 @@ Vue.component('fire-select', {
                 this.populate();
             },
             deep: true
-        }
+        },
+
+        multiple: function(val) {
+            if (val === false && this.selected.length) {
+                this.selected.forEach(function(option, index){
+                    if (index > 0) option.selected = false;
+                });
+            }
+        },
     },
 
     filters: {

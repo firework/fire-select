@@ -16,11 +16,17 @@ It is similar to Selectize, Chosen, Select2, etc. However it was built using Vue
 - **create** | *Boolean* | false  
     Allows the creation of new items that aren't in the list of options.    
 
-- **placeholder** | *String* | 'Type anything to search'  
-    Placeholder attribute of input.  
+- **helper-message** | *String* | 'Type anything to search'  
+    Placeholder attribute of search input.  
 
-- **empty-message** | *String* | 'Select an item'  
-    Placeholder text displayed before an option is selected.
+- **placeholder** | *String* | 'Select an item'  
+    Placeholder attribute of fireselect.  
+
+- **add-label** | *String* | 'Add:'  
+    Text to add new option.  
+
+- **no-results-label** | *String* | 'No results found for:'  
+    Text to appear when no option is found.  
 
 - **animation** | *Boolean* | true  
     Show animation when item is selected  
@@ -33,18 +39,14 @@ It is similar to Selectize, Chosen, Select2, etc. However it was built using Vue
 
 ## Usage
 ```html
-<!-- Import -->
-<link rel="stylesheet" href="../src/fire-select.css">
+<!-- Import the style -->
+<link rel="stylesheet" href="../dist/fire-select.css">
 ..
+<!-- Import the script -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.min.js"></script>
-<script src="../src/fire-select.js"></script>
+<script src="../dist/fire-select.js"></script>
 
-<!-- Import fire-select template ../src/fireselect.html -->
-<template id="fire-select-template">
-....
-</template>
-
-<!-- Use fire-select componenet -->
+<!-- Use fire-select component -->
 <fire-select :options="options"></fire-select>
 
 ```

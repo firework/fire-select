@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>🔥 Fireselect</title>
-    <link rel="stylesheet" href="fire-select.css">
+    <link rel="stylesheet" href="../dist/fire-select.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,7 +20,7 @@
             :animation="animation"
             :helper-message="helperMessage"
             :placeholder="placeholder"
-            :press-enter-label="pressEnterLabel"
+            :add-label="addLabel"
             :no-results-label="noResultsLabel"
         ></fire-select>
 
@@ -69,8 +69,8 @@
             </label>
 
             <label>
-                Press Enter Label
-                <input type="text" v-model="pressEnterLabel">
+                Add Label
+                <input type="text" v-model="addLabel">
             </label>
 
             <label>
@@ -81,7 +81,7 @@
     </div>
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.min.js"></script>
-    <script src="fire-select.js"></script>
+    <script src="../dist/fire-select.js"></script>
     <script src="script.js"></script>
 
     <!-- livereload -->
