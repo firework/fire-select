@@ -15,7 +15,8 @@
             v-for="option in selected"
             @click.stop="open()"
         >
-            {{ option.label }} <b @click.stop="deselect(option)">&times;</b>
+            {{ option.label }}
+            <b @click.stop="deselect(option)">&times;</b>
         </li>
     </ul>
 
@@ -42,7 +43,7 @@
                 'hover': index == -1,
             }"
         >
-            {{ pressEnterLabel }} <b>{{ input }}</b>
+            {{ addLabel }} <b>{{ input }}</b>
         </li>
 
         <li class="fire-select-item" v-if="tips.length == 0 && ! create">
