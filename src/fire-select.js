@@ -106,7 +106,7 @@ Vue.component('fire-select', {
     filters: {
         highlight: function(value) {
             return this.input.length ?
-                value.replace(new RegExp('('+this.input+')', 'g'), '<b>$1</b>')
+                value.replace(new RegExp('('+this.input+')', 'gi'), '<b>$1</b>')
                 : value;
         }
     },
