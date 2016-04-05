@@ -13,7 +13,7 @@
             }"
             :transition="animation ? 'bounce' : ''"
             v-for="option in selected"
-            @click.stop="multiple ? deselect(option) : open()"
+            @click.stop="open()"
         >
             {{ option.label }} <b @click.stop="deselect(option)">&times;</b>
         </li>
