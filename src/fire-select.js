@@ -162,7 +162,6 @@ Vue.component('fire-select', {
 
             this.singleDeselect();
             this.addOption(text, text, true, true, true);
-            this.input = '';
         },
 
         select: function(option) {
@@ -196,7 +195,7 @@ Vue.component('fire-select', {
         },
 
         up: function() {
-            if (this.index !== null && this.index > -1) {
+            if (this.index !== null && this.index > (this.input ? -1 : 0)) {
                 this.index--;
             } else {
                 this.index = this.tips.length - 1;
