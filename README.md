@@ -10,6 +10,9 @@ It is similar to Selectize, Chosen, Select2, etc. However it was built using Vue
 - **options** | *Array* | []  
     An array of the initial available options.  
 
+- **selected** | *Array* | []  
+    An array of the selected options.  
+
 - **multiple** | *Boolean* | false  
     Equivalent to the `select multiple` attribute.  
 

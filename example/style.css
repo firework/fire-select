@@ -83,3 +83,20 @@ hr {
 .radio label {
     width: 50%;
 }
+
+code {
+    padding: 5px;
+    background-color: #111;
+    color: #fff;
+    border-radius: 3px;
+    width: 100%;
+    display: block;
+    margin-bottom: 15px;
+    white-space: pre;
+}
+
+code span {
+    color: #666;
+    display: block;
+    margin-bottom: 5px;
+}

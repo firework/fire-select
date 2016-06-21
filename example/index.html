@@ -16,6 +16,7 @@
         <fire-select
             :options="options == 'object' ? languagesObj : languages"
             :multiple="multiple"
+            :selected.sync="selected"
             :create="create"
             :animation="animation"
             :helper-message="helperMessage"
@@ -77,14 +78,13 @@
                 No Results Label
                 <input type="text" v-model="noResultsLabel">
             </label>
+
+            <code><span>// Selected</span>{{ selected | json }}</code>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.min.js"></script>
     <script src="../dist/fire-select.js"></script>
     <script src="script.js"></script>
-
-    <!-- livereload -->
-    <script src="http://localhost:35729/livereload.js?snipver=1"></script>
 </body>
 </html>

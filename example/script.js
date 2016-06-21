@@ -1,11 +1,11 @@
+Vue.config.devtools = true;
+
 var obj = [
     {value: 'html', label: 'HyperText Markup Language'},
     {value: 'css', label: 'Cascading Style Sheets'},
     {value: 'js', label: 'Javascript'},
-    // {value: 'php', label: 'Hypertext Preprocessor'},
 ];
 
-// var languages = ['HyperText Markup Language', 'Cascading Style Sheets', 'Javascript', 'Hypertext Preprocessor'];
 var arr = ['HyperText Markup Language', 'Cascading Style Sheets', 'Javascript'];
 
 var vm = new Vue({
@@ -15,6 +15,7 @@ var vm = new Vue({
         languagesObj: obj,
         languages: arr,
         options: 'object',
+        selected: [],
         multiple: false,
         create: true,
         animation: true,

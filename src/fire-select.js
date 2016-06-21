@@ -7,6 +7,11 @@ Vue.component('fire-select', {
             default: [],
         },
 
+        selected: {
+            type: Array,
+            default: [],
+        },
+
         multiple: {
             type: Boolean,
             default: false
@@ -75,16 +80,30 @@ Vue.component('fire-select', {
 
     computed: {
         tips: function() {
-            return this.options_.filter(function(option) { return option.tip === true && option.selected === false; });
-        },
-
-        selected: function() {
-            return this.options_.filter(function(option) { return option.selected === true; });
+            return this.options_.filter(function(option) {
+                return option.tip === true && option.selected === false;
+            });
         },
     },
 
     watch: {
-        'input': function (val) {
+        options: {
+            handler: function() {
+                this.populate();
+            },
+            deep: true
+        },
+
+        options_: {
+            handler: function() {
+                this.selected = this.options_.filter(function(option) {
+                    return option.selected === true;
+                });
+            },
+            deep: true
+        },
+
+        input: function (val) {
             this.index = null;
 
             this.options_.forEach(function(option) {
@@ -93,13 +112,6 @@ Vue.component('fire-select', {
 
                 option.tip = val.length ? label.indexOf(value) != -1 : true;
             });
-        },
-
-        'options': {
-            handler: function() {
-                this.populate();
-            },
-            deep: true
         },
 
         multiple: function(val) {

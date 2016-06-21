@@ -4,8 +4,11 @@
   "description": "Fire Select",
   "author": "Firework - Web Solutions",
   "license": "MIT",
+  "scripts": {
+    "reinstall": "rm -rf ./node_modules/ && npm i --no-progress"
+  },
   "devDependencies": {
-    "laravel-elixir": "^6.0.0-0",
-    "laravel-elixir-livereload": "^1.1.4"
+    "laravel-elixir": "^6.0.0-4",
+    "laravel-elixir-browserify-official": "^0.1.2"
   }
 }
